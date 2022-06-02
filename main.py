@@ -7,6 +7,7 @@ import numpy as np
 from os import listdir
 from os.path import isfile, join
 import re
+from spyre import server
 
 
 class Dataframes:
@@ -119,11 +120,23 @@ class Dataframes:
             print(qq[(qq.VHI <= 30)])
 
 
+class SimpleApp(server.App):
+    title = "NOAA data visualisation"
+
+    inputs = [dict( type='dropdown',
+                    label='NOAA data dropdown',
+                    options=[{"label": "VCI", "value": "VCI"},
+                             {"label": "TCI", "value": "TCI"},
+                             {"label": "VHI", "value": "VHI"}],
+                    key="ticker",
+                    action_id='update_data')]
+
 if __name__ == '__main__':
     # downloadfiles()
     ddd = Dataframes('e:\\projects\\datalab1')
     ddd.readdata()
     ddd.changeindexes()
     # ddd.yearandprovince(11, 2007)
-    ddd.allyearsanddroughts2(7)
+    # ddd.allyearsanddroughts2(7)
+    print(ddd.merged)
 
